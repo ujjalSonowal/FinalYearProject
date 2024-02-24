@@ -22,7 +22,15 @@ const eventSchema = new mongoose.Schema(
     status: { type: Boolean }, // for active or inactive events
     capacity: { type: Number },
     TotalBooking: { type: Number, default: 0 },
-    //feedback, rating, price, gallery(image & video), comment[commentbody,commentdate, userid, ]
+    feedback: { type: String },
+    rating: { type: Number },
+    Price: { type: Number },
+    comment: {
+      commentBody: { type: String },
+      commentDate: { type: Date },
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    },
+    //Gallery(image & video)
   },
 
   {

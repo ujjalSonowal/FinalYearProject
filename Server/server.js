@@ -5,6 +5,8 @@ const { login, signup } = require("./Controller/auth");
 
 const userRouter = require("./Router/users");
 const bookingRouter = require("./Router/booking");
+const eventRouter = require("./Router/events");
+const organizerRouter = require("./Router/organizer");
 
 const port = process.env.PORT || 3002;
 
@@ -18,7 +20,9 @@ app.use("/users/signup", signup);
 //for bookings
 app.use("/bookings", bookingRouter); //now bookings will be the new collections  in our database
 
-// app.use("/events");
+app.use("/events", eventRouter);
+
+app.use("/organizer", organizerRouter);
 
 //password: 9JonUyI7QfXWqyLl
 
