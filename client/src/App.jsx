@@ -1,15 +1,15 @@
 import React from "react";
 import "./App.css";
+import Navbar from "./components/Navbar";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <div>
-        <h1> Welcome to my website </h1>
-        <p> This is my first website </p>
-      </div>
+      <Routes>
+        <Route path="/" element={<Navbar />} />{" "}
+      </Routes>{" "}
     </>
   );
 }
-
 export default App;
