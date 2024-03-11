@@ -3,30 +3,16 @@ const Organizer = require("../Model/organiserModel");
 
 //Add new organizer
 const addOrganizer = async (req, res) => {
-  const {
-    companyName,
-    contactName,
-    contactEmail,
-    contactPhone,
-    services,
-    portfolio,
-    feedback,
-    rating,
-  } = req.body;
+  const postOrganizationData = req.body;
+  const userId = req.userId;
   try {
-    const newOrganizer = await Organizer.create({
-      companyName,
-      contactName,
-      contactEmail,
-      contactPhone,
-      services,
-      portfolio,
-      feedback,
-      rating,
+    const newOrganization = await Organizer.create({
+      ...postOrganizationData,
+      userId,
     });
-    if (!newOrganizer)
-      return res.status(400).json({ msg: "Failed to create booking" });
-    res.status(201).json(newOrganizer);
+    if (!newOrganization)
+      return res.status(400).json({ msg: "Failed to create new organization" });
+    res.status(201).json(newOrganization);
   } catch (err) {
     res.status(400).json({ mgs: "Error" });
   }
@@ -34,8 +20,20 @@ const addOrganizer = async (req, res) => {
 
 //get all Organizer details
 const allOrganizer = async (req, res) => {
-  const organizers = await Organizer.find({}).sort({ createdAt: -1 });
+  const organizers = await Organizer.find({}).sort({ createdAt: 1 });
   res.status(200).json(organizers);
+};
+
+//get all organize by top rating
+const getByTopRating = async (req, res) => {
+  const topRating = await Organizer.find().sort({ rating: -1 });
+  res.status(200).json(topRating);
+};
+
+//get all organization gy low rating
+const getByLowestRating = async (req, res) => {
+  const lowRating = await Organizer.find().sort({ rating: 1 });
+  res.status(200).json(lowRating);
 };
 
 // get single organizer by id
@@ -77,7 +75,7 @@ const updateOrganizer = async (req, res) => {
 
   const eventOrganizers = await Organizer.findOneAndUpdate(
     { _id: id },
-    { ...req.body }
+    { ...updates }
   );
 
   if (!eventOrganizers) {
@@ -87,10 +85,57 @@ const updateOrganizer = async (req, res) => {
   res.status(200).json(eventOrganizers);
 };
 
+//post a service/ or add new services
+const postservice = async (req, res) => {
+  const { id: _id } = req.params;
+  const { serviceName, description } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    res.status(404).json({ error: "not a valid id" });
+  }
+  try {
+    const updatedservice = await Organizer.findByIdAndUpdate(_id, {
+      $addToSet: {
+        services: [{ serviceName, description }],
+      },
+    });
+    res.status(200).json(updatedservice);
+  } catch (error) {
+    res.status(400).json("error in updating");
+  }
+};
+
+//delete services
+const deleteservice = async (req, res) => {
+  const { id: _id } = req.params;
+  const { serviceId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send("events unavailable...");
+  }
+  // if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+  //   return res.status(404).send("service unavailable...");
+  // }
+  try {
+    await Organizer.updateOne(
+      { _id },
+      { $pull: { services: { _id: serviceId } } }
+    );
+
+    res.status(200).json({ message: "Successfully deleted..." });
+  } catch (error) {
+    res.status(405).json(error);
+  }
+};
+
 module.exports = {
   addOrganizer,
   allOrganizer,
   getSingleOrganizer,
   deleteOrganizer,
   updateOrganizer,
+  getByTopRating,
+  getByLowestRating,
+  postservice,
+  deleteservice,
 };

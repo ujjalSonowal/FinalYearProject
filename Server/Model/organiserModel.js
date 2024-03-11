@@ -4,37 +4,36 @@ const organizerSchema = new mongoose.Schema(
   {
     companyName: {
       type: String,
-      required: true,
+      required: "Company name is required",
     },
-    contactName: {
+
+    description: { type: String },
+
+    ownerName: {
       type: String,
-      required: true,
+      required: "owner Name  is required",
     },
     contactEmail: {
       type: String,
-      required: true,
+      required: "Valid email address is required.",
     },
+
     contactPhone: {
-      type: String,
-      required: true,
+      type: Number,
+      required: "Contact phone number is required.",
     },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     services: [
       {
-        serviceName: String,
-        description: String,
-        pricing: Number,
+        serviceName: { type: String },
+        description: { type: String },
+        // pricing: Number,
       },
     ],
-    portfolio: [
-      // for company logo
-      {
-        title: String,
-        description: String,
-        images: [String],
-      },
-    ],
+
+    address: { type: String },
     feedback: { type: String }, //feedback on Organizer/company
-    rating: { type: Number },
+    rating: { type: Number, default: 0 },
   },
   {
     timestamps: true,

@@ -8,7 +8,7 @@ const {
   updateBookings,
 } = require("../Controller/bookingController");
 
-router.post("/add-booking", addBookings); // Add a new booking to the database
+router.post("/addbooking", addBookings); // Add a new booking to the database
 
 router.get("/", allBookings); // get all users
 

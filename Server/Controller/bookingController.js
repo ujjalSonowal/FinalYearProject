@@ -12,7 +12,7 @@ const addBookings = async (req, res) => {
       price,
     });
     if (!newBooking)
-      return res.status(400).json({ msg: "Failed to create booking" });
+      return res.status(400).json({ msg: "Failed to add booking" });
     res.status(201).json(newBooking);
   } catch (err) {
     res.status(400).json({ mgs: "Error" });

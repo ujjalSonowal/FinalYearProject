@@ -5,32 +5,32 @@ const eventSchema = new mongoose.Schema(
     organizerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Organizer",
-      required: true,
     },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     name: {
       type: String,
-      required: true,
     },
     type: {
       type: String,
-      required: true,
     },
     CreatedDate: {
-      type: Date,
-      required: true,
+      type: String, // later Date
     },
     status: { type: Boolean }, // for active or inactive events
-    capacity: { type: Number },
+    capacity: { type: [Number] },
     TotalBooking: { type: Number, default: 0 },
-    feedback: { type: String },
     rating: { type: Number },
-    Price: { type: Number },
-    comment: {
-      commentBody: { type: String },
-      commentDate: { type: Date },
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    },
-    //Gallery(image & video)
+    Price: { type: [Number] },
+    noofcomment: { type: Number },
+    comment: [
+      {
+        commentBody: { type: String },
+        commentDate: { type: Date, default: Date.now },
+        userId: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: "user" },
+      },
+    ],
+    image: { type: Buffer },
+    video: { type: Buffer },
   },
 
   {

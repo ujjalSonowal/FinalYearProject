@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { login, signup } = require("./Controller/auth");
+// const { login, signup } = require("./Controller/auth");
 
 const userRouter = require("./Router/users");
 const bookingRouter = require("./Router/booking");
 const eventRouter = require("./Router/events");
 const organizerRouter = require("./Router/organizer");
+const commentRouter = require("./Router/postcomment");
+const serviceRouter = require("./Router/postservice");
 
 const port = process.env.PORT || 3002;
 
@@ -14,8 +16,9 @@ const app = express();
 app.use(express.json());
 
 app.use("/users", userRouter);
-app.use("/users/login", login);
-app.use("/users/signup", signup);
+app.use("/service", serviceRouter);
+
+app.use("/comment", commentRouter);
 
 //for bookings
 app.use("/bookings", bookingRouter); //now bookings will be the new collections  in our database
