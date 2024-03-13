@@ -46,7 +46,10 @@ const deleteBookings = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ msg: "No User Found with this ID!" });
   }
-  const deleteBooking = await Booking.findOneAndDelete({ _id: id });
+  const deleteBooking = await Booking.findOneAndDelete({
+    _id,
+    userId: req.userId,
+  });
   if (!deleteBooking) {
     return res.status(404).json({ msg: "No User Found with this ID" });
   }
@@ -64,7 +67,7 @@ const updateBookings = async (req, res) => {
 
   const bookingUpdate = await Booking.findOneAndUpdate(
     { _id: id },
-    { ...req.body }
+    { $set: { ...updates } }
   );
 
   if (!bookingUpdate) {

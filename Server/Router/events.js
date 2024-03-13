@@ -6,12 +6,13 @@ const {
   singleEvent,
   deleteEvent,
   updateEvent,
-  postcomment,
-  deletecomment,
   getByHighRating,
   getByLowestRating,
   getByHighPrice,
   getByLowPrice,
+  updatePrice,
+  deletePrice,
+  addPrice,
 } = require("../Controller/eventController");
 
 router.post("/addevent", addEvent); // Add a new event to the database
@@ -32,7 +33,20 @@ router.patch("/:id", updateEvent); // update an existing event
 
 router.delete("/:id", deleteEvent); // delete event
 
-router.patch("/comment/:id", postcomment); //post/update comment
-router.patch("/comment/delete/:id", deletecomment); // delete comment
+//update price
+router.patch("/price/:id", updatePrice);
+
+// router.patch("/:id/price", async (req, res) => {
+//   try {
+//     await updatePrice(req, res);
+//   } catch (error) {
+//     console.error("Error updating price:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+router.delete("/price/:id", deletePrice);
+
+router.post("/price/:id", addPrice);
 
 module.exports = router;

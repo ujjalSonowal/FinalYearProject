@@ -9,6 +9,7 @@ const eventRouter = require("./Router/events");
 const organizerRouter = require("./Router/organizer");
 const commentRouter = require("./Router/postcomment");
 const serviceRouter = require("./Router/postservice");
+const capacityRouter = require("./Router/capacityRoute");
 
 const port = process.env.PORT || 3002;
 
@@ -26,6 +27,8 @@ app.use("/bookings", bookingRouter); //now bookings will be the new collections 
 app.use("/events", eventRouter);
 
 app.use("/organizer", organizerRouter);
+
+app.use("/capacity", capacityRouter);
 
 //password: 9JonUyI7QfXWqyLl
 

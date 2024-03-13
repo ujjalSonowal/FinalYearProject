@@ -115,7 +115,10 @@ const updateEvent = async (req, res) => {
     res.status(404).json({ mgs: "not valid id" });
   }
 
-  const eventUpdate = await Event.findOneAndUpdate({ _id: id }, { ...updates });
+  const eventUpdate = await Event.findOneAndUpdate(
+    { _id: id },
+    { $set: { ...updates } }
+  );
 
   if (!eventUpdate) {
     res.status(404).json({ mgs: "user updated" });
@@ -124,59 +127,14 @@ const updateEvent = async (req, res) => {
   res.status(200).json(eventUpdate);
 };
 
-//post a comment
-const postcomment = async (req, res) => {
-  const { id: _id } = req.params;
-  const userId = req.userId;
-  const { commentBody, commentAnswer, commentDate } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    res.status(404).json({ error: "not a valid id" });
-  }
-
-  // updatnoofcomment(_id, noofcomment);
-
-  try {
-    const updatedcomment = await Event.findByIdAndUpdate(_id, {
-      $addToSet: {
-        comment: [{ commentBody, commentAnswer, commentDate, userId }],
-      },
-    });
-    res.status(200).json(updatedcomment);
-  } catch (error) {
-    res.status(400).json("error in updating");
-  }
-};
-
 //update total no of comment
-const updatnoofcomment = async (_id, noofcomment) => {
-  try {
-    await Event.findByIdAndUpdate(_id, { $set: { noofcomment: noofcomment } });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//delete a comment
-const deletecomment = async (req, res) => {
-  const { id: _id } = req.params;
-  const { commentId } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send("events unavailable...");
-  }
-  // if (!mongoose.Types.ObjectId.isValid(commentId)) {
-  //   return res.status(404).send("comment unavailable...");
-  // }
-  // updateNoOfQuestions(_id, noofcomment);
-  try {
-    await Event.updateOne({ _id }, { $pull: { comment: { _id: commentId } } });
-
-    res.status(200).json({ message: "Successfully deleted..." });
-  } catch (error) {
-    res.status(405).json(error);
-  }
-};
+// const updatnoofcomment = async (_id, noofcomment) => {
+//   try {
+//     await Event.findByIdAndUpdate(_id, { $set: { noofcomment: noofcomment } });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 //get all event by low price
 const getByLowPrice = async (req, res) => {
@@ -190,17 +148,95 @@ const getByHighPrice = async (req, res) => {
   res.status(200).json(highPrice);
 };
 
+//update price
+const updatePrice = async (req, res) => {
+  const { id: _id } = req.params;
+  const { index, value } = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      res.status(404).json({ error: "not a vaild id" });
+    }
+
+    const update = {};
+    // update["Price." + index] = value;
+    update[`Price.${index}`] = value;
+
+    const data = await Event.findByIdAndUpdate(
+      { _id },
+      { $set: update },
+      { new: true }
+    );
+
+    if (!data) {
+      res.status(400).json({ error: "fail to update" });
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+//delete price
+const deletePrice = async (req, res) => {
+  const { id: _id } = req.params;
+  const { index } = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).json({ error: "not a valid id" });
+    }
+
+    const data = await Event.findById(_id);
+
+    if (!data) {
+      return res.status(404).json({ error: "event not found" });
+    }
+
+    // Remove price at the specified index
+    data.Price.splice(index, 1);
+    await data.save();
+
+    return res.status(200).json({ message: "Price deleted successfully" });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+//add new price
+const addPrice = async (req, res) => {
+  const { id: _id } = req.params;
+  const { price } = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).json({ error: "not a valid id" });
+    }
+
+    const data = await Event.findById(_id);
+
+    if (!data) {
+      return res.status(404).json({ error: "event not found" });
+    }
+
+    // Add the new price to the Price array
+    data.Price.push(price);
+    await data.save();
+
+    return res.status(200).json({ message: "Price added successfully" });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvent,
   singleEvent,
   deleteEvent,
   updateEvent,
-  postcomment,
-  deletecomment,
-  updatnoofcomment,
   getByHighRating,
   getByLowestRating,
   getByHighPrice,
   getByLowPrice,
+  updatePrice,
+  deletePrice,
+  addPrice,
 };

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const user = require("../Model/usermodel");
+const bcrypt = require("bcrypt");
 
 //get all users
 const allUsers = async (req, res) => {
@@ -39,12 +40,16 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
+  const { password } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(404).json({ mgs: "not valid id" });
   }
-
-  const update = await user.findOneAndUpdate({ _id: id }, { ...req.body });
+  const hashPassword = await bcrypt.hash(password, 12);
+  const update = await user.findOneAndUpdate(
+    { _id: id },
+    { $set: { ...updates, password: hashPassword } }
+  );
 
   if (!update) {
     res.status(404).json({ mgs: "user updated" });

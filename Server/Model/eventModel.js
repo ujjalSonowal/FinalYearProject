@@ -17,7 +17,7 @@ const eventSchema = new mongoose.Schema(
       type: String, // later Date
     },
     status: { type: Boolean }, // for active or inactive events
-    capacity: { type: [Number] },
+    capacity: { type: [Number] }, //[100-200, 200-300..]
     TotalBooking: { type: Number, default: 0 },
     rating: { type: Number },
     Price: { type: [Number] },
@@ -30,7 +30,7 @@ const eventSchema = new mongoose.Schema(
       },
     ],
     image: { type: Buffer },
-    video: { type: Buffer },
+    video: { type: Buffer }, //multer
   },
 
   {
