@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "../../components/Navbar";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +45,6 @@ const Signup = () => {
 
   return (
     <div className="container">
-      <Navbar />
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold my-4">Sign Up</h1>
         <form onSubmit={handleSubmit} className="max-w-md">

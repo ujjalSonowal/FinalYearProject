@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
-import Navbar from "../../components/Navbar";
 import { Events } from "../../components/Events";
 // import { Bookings } from "../../components/Bookings";
 import { Organizers } from "../../components/Organizers";
-import { Footer } from "../../components/Footer";
 
 function Home() {
   const [events, setEvents] = useState(null);
@@ -56,7 +54,6 @@ function Home() {
   return (
     <>
       <div className="container">
-        <Navbar />
         <div className="container-items">
           <div className="evetns-items">
             <h2>Events</h2>
@@ -84,7 +81,6 @@ function Home() {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );

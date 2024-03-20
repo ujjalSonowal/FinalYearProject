@@ -1,17 +1,23 @@
 import React from "react";
 import "./App.css";
-// import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import { AllRoutes } from "./AllRoutes";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      <div className="app">
+        <header className="app-header">
+          <Navbar />
+          <div className="app-route">
+            <AllRoutes />
+          </div>
+        </header>
+        <footer className="app-footer">
+          <Footer />
+        </footer>
+      </div>
     </>
   );
 }
