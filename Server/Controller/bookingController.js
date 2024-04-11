@@ -3,9 +3,11 @@ const Booking = require("../Model/bookModel.js");
 
 //Add new bookings
 const addBookings = async (req, res) => {
+  const { id: _id } = req.params;
   const { bookingDate, bookingDay, TimeSlot, price } = req.body;
   try {
     const newBooking = await Booking.create({
+      eventId: _id,
       bookingDate,
       bookingDay,
       TimeSlot,

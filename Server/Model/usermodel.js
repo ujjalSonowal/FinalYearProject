@@ -4,7 +4,7 @@ const usermodel = new Schema(
   {
     name: { type: String, require: "Name is required" },
     email: { type: String, require: "Email is required", unique: true },
-    phoneNumber: { type: Number, required: "Phone number is required" },
+    phoneNumber: { type: Number },
     password: { type: String, required: "password  is required" },
     address: {
       street: { type: String, required: false },
@@ -16,8 +16,8 @@ const usermodel = new Schema(
 
     role: {
       type: String,
-      enum: ["organizer", "customer"],
-      default: "customer",
+      enum: ["organizer", "user"],
+      default: "user",
     },
     isAdmin: { type: Boolean, default: false }, //admin can do anything user cannot.
   },

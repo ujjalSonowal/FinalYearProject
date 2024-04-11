@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const {
-  addEvent,
-  allEvent,
-  singleEvent,
-  deleteEvent,
-  updateEvent,
-  getByHighRating,
-  getByLowestRating,
-  getByHighPrice,
-  getByLowPrice,
-  updatePrice,
-  deletePrice,
-  addPrice,
+    addEvent,
+    allEvent,
+    singleEvent,
+    deleteEvent,
+    updateEvent,
+    getByHighRating,
+    getByLowestRating,
+    getByHighPrice,
+    getByLowPrice,
+    updatePrice,
+    deletePrice,
+    addPrice,
+    getTopRating,
+    getRatingHome,
 } = require("../Controller/eventController");
 
 router.post("/addevent", addEvent); // Add a new event to the database
@@ -36,17 +38,12 @@ router.delete("/:id", deleteEvent); // delete event
 //update price
 router.patch("/price/:id", updatePrice);
 
-// router.patch("/:id/price", async (req, res) => {
-//   try {
-//     await updatePrice(req, res);
-//   } catch (error) {
-//     console.error("Error updating price:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-
 router.delete("/price/:id", deletePrice);
 
 router.post("/price/:id", addPrice);
 
+router.get("/topratings", getTopRating); //limit(3) for slider
+
+//rating for home
+router.get("/homerating", getRatingHome);
 module.exports = router;
