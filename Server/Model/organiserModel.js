@@ -31,6 +31,8 @@ const organizerSchema = new mongoose.Schema(
       },
     ],
 
+    image: { type: Buffer }, //owner profile logo
+
     address: { type: String },
     feedback: { type: String }, //feedback on Organizer/company
     rating: { type: Number, default: 0 },

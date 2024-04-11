@@ -60,7 +60,7 @@ const Navbar = () => {
             <li className="nav-item">
               {usertype === "User" && (
                 <Link to="" className="nav-link">
-                  show only for user : {usertype}
+                  Home : {usertype}
                 </Link>
               )}
             </li>

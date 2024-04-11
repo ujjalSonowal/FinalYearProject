@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  z-index: -1;
+  color: white;
+  background-color: rgb(6, 40, 66);
+  position: fixed;
+}
+
+.side-links {
+  color: aliceblue;
+  list-style: none;
+  padding: 0;
+}
+
+.side-item {
+  color: white;
+  list-style: none;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.side-item:hover {
+  background-color: #def0f5;
+  /* color: #bfd5d7; */
+}

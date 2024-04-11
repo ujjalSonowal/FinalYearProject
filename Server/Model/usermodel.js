@@ -14,11 +14,11 @@ const usermodel = new Schema(
     },
     image: { type: Buffer }, // for profile logo
 
-    role: {
-      type: String,
-      enum: ["organizer", "user"],
-      default: "user",
-    },
+    // role: {
+    //   type: String,
+    //   enum: ["organizer", "user"],
+    // },
+    usertype: { type: String }, //this will be used to check whether the user is organizer or not.
     isAdmin: { type: Boolean, default: false }, //admin can do anything user cannot.
   },
   {
